@@ -10,6 +10,7 @@ import {
   Menu,
   MenuItem,
   MenuVerticalOutlined,
+  OutboundOutlined,
   Tag,
   Typography,
   VoicemailOutlined,
@@ -36,24 +37,50 @@ export const CallRowComponent: React.FC<CallRowComponentProps> = ({ call }) => {
       ) : (
         <Icon component={VoicemailOutlined} mx="auto" color="blue.base" />
       )}
-      <Tag
-        size="small"
-        variant="blue"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {call.call_type}
-      </Tag>
+      {call.call_type === 'answered' ? (
+        <Tag
+          size="small"
+          variant="primary"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {call.call_type}
+        </Tag>
+      ) : call.call_type === 'missed' ? (
+        <Tag
+          size="small"
+          variant="red"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {call.call_type}
+        </Tag>
+      ) : (
+        <Tag
+          size="small"
+          variant="blue"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {call.call_type}
+        </Tag>
+      )}
       <Typography variant="body" textAlign="center">
         {secondsToHms(call.duration)}
       </Typography>
+
       <Tag
         size="small"
         variant="blue"
         alignItems="center"
         justifyContent="center"
       >
-        <InboundOutlined size="16px" />
+        {call.direction === 'inbound' ? (
+          <InboundOutlined size="16px" />
+        ) : (
+          <OutboundOutlined size="16px" />
+        )}
+
         {call.direction}
       </Tag>
       <Typography variant="body" textAlign="center">
@@ -65,7 +92,8 @@ export const CallRowComponent: React.FC<CallRowComponentProps> = ({ call }) => {
       {call.is_archived ? (
         <Tag
           size="small"
-          variant="blue"
+          bg="yellow.light"
+          color="yellow.darker"
           alignItems="center"
           justifyContent="center"
         >
