@@ -5,15 +5,17 @@ import axios, {
   AxiosRequestHeaders,
 } from 'axios';
 import { QueryParams } from '../types/Api';
-import { convertObjectToQueryParams } from '../utils/ApiUtils';
+import { convertObjectToQueryParams, saveAuthToken } from '../utils/ApiUtils';
+import { AuthApi } from './AuthApi';
 
 export const authInterceptor = (config: AxiosRequestConfig) => {
   const token = localStorage.getItem('auth-token');
-  if (token) {~
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return { ...config };
 };
+
 
 const axiosInstance: AxiosInstance = axios.create();
 axiosInstance.interceptors.request.use(authInterceptor);

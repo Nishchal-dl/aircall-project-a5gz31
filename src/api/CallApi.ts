@@ -3,7 +3,7 @@ import { CallsApiResponse } from '../types/Api';
 import { Call, ID } from '../types/Call';
 import { Api } from './Api';
 
-const CALL_PAGE_LIMIT = 10;
+export const CALL_PAGE_LIMIT = 10;
 
 export class CallApi extends Api {
   private static callsEndpoint: string = '/calls';
@@ -12,7 +12,7 @@ export class CallApi extends Api {
     offset: number,
     limit: number = CALL_PAGE_LIMIT
   ): AxiosPromise<CallsApiResponse> {
-    const queryParams = { offset, limit, created_type: 'voicemail' };
+    const queryParams = { offset, limit, call_type: 'answered' };
     return this.get<CallsApiResponse>(CallApi.callsEndpoint, queryParams);
   }
 

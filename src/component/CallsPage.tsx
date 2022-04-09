@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   CallbackOutlined,
+  ChevronLeftOutlined,
+  ChevronRightOutlined,
   Divider,
   Dropdown,
   DropdownButton,
@@ -23,10 +25,26 @@ import {
   Typography,
 } from '@aircall/tractor';
 import { Modal } from '@aircall/tractor/es/components/Modal';
-import Reacct, { useState } from 'react';
-import { DetailComponent } from './DetailComponent';
+import React, { useState } from 'react';
+import { DetailComponent } from '../DetailComponent';
+import { Call } from '../types/Call';
+import { CallRowComponent } from './CallRowComponent';
 
-export function CallsPage() {
+type CallsPageProps = {
+  calls: Array<Call>;
+  setPage: (pageNumber: number) => void;
+  page: number;
+  previousPage: () => void;
+  nextPage: () => void;
+};
+
+export const CallsPage: React.FC<CallsPageProps> = ({
+  calls,
+  page,
+  setPage,
+  previousPage,
+  nextPage,
+}) => {
   const [isOpen, toggleModal] = useState(true);
 
   const showModal = () => {
@@ -73,7 +91,7 @@ export function CallsPage() {
         </Flex>
         {/* Heading */}
         <Grid
-          gridTemplateColumns="2rem 6rem  5rem 6rem 10rem auto 5rem 2rem"
+          gridTemplateColumns="2rem 6rem  7rem 6rem 10rem auto 5rem 2rem"
           gridGap={4}
           py="0.5rem"
           borderY="1px solid #ccc"
@@ -96,73 +114,15 @@ export function CallsPage() {
           <Typography textAlign="center">Archive</Typography>
         </Grid>
 
-        <Grid
-          gridTemplateColumns="2rem 6rem 5rem 6rem 10rem auto 5rem 2rem"
-          gridGap={4}
-          borderBottom="1px solid #ccc"
-          alignItems="center"
-        >
-          <Icon component={CallbackOutlined} mx="auto" color="red.base" />
-          <Tag
-            size="small"
-            variant="blue"
-            alignItems="center"
-            justifyContent="center"
-          >
-            Missed
-          </Tag>
-          <Typography variant="body" textAlign="center">
-            1m 8s
-          </Typography>
-          <Tag
-            size="small"
-            variant="blue"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <InboundOutlined size="16px" />
-            Inbound
-          </Tag>
-          <Typography variant="body" textAlign="center">
-            June 11 2022 | 8pm
-          </Typography>
-          <Typography textAlign="left" ellipsis>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-            tempus ex tempus, dictum dolor quis, condimentum nisi. Maecenas vel
-            turpis ut tortor ullamcorper sagittis. Aliquam commodo volutpat
-            neque. Sed dignissim faucibus velit, nec blandit eros. Praesent vel
-            fermentum magna. In et vulputate lectus, ac lobortis nisl. Duis ac
-            convallis nisi, mattis condimentum lacus. Cras suscipit posuere
-            metus
-          </Typography>
-          <Tag
-            size="small"
-            variant="blue"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <ArchiveOutlined size="16px" />
-            Archived
-          </Tag>
-          <Box>
-            <Dropdown
-              trigger={
-                <DropdownButton
-                  mode="link"
-                  variant="primary"
-                  iconClose={<MenuVerticalOutlined />}
-                ></DropdownButton>
-              }
-              position="bottom"
-              anchor="end"
-            >
-              <Menu>
-                <MenuItem>Archive</MenuItem>
-                <MenuItem onClick={showModal}>Details</MenuItem>
-              </Menu>
-            </Dropdown>
-          </Box>
-        </Grid>
+        {calls.map((call) => (
+          <CallRowComponent call={call} key={call.id} />
+        ))}
+
+        <Flex flexDirection="row-reverse">
+          <ChevronRightOutlined onClick={nextPage} />
+          {page}
+          <ChevronLeftOutlined onClick={previousPage} />
+        </Flex>
       </Box>
 
       <Modal.Dialog show={isOpen} onHide={closeModal}>
@@ -239,4 +199,4 @@ export function CallsPage() {
       </Modal.Dialog>
     </Box>
   );
-}
+};

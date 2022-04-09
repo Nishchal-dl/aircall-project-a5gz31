@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
-import { QueryParams } from '../types/Api';
+import { LoginApiResponse, QueryParams } from '../types/Api';
 
 export function convertObjectToQueryParams(params: QueryParams = {}): string {
   const queryParams: Array<string> = Object.keys(params).map(
@@ -20,6 +20,10 @@ export function addDefaultConfiguration(): AxiosRequestConfig {
   return config;
 }
 
-export function saveAuthToken(token: string) {
-  localStorage.setItem('auth-token', token);
+export function saveAuthToken({
+  access_token,
+  refresh_token,
+}: LoginApiResponse) {
+  localStorage.setItem('auth-token', access_token);
+  localStorage.setItem('refresh-token', refresh_token);
 }

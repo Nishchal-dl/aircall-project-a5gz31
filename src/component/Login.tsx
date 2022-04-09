@@ -13,11 +13,23 @@ import {
   TextFieldInput,
   Typography,
 } from '@aircall/tractor';
-import { useState } from 'react';
-import './app.css';
+import React, { SyntheticEvent, useState } from 'react';
+import '../app.css';
+import { LoginApiRequest } from '../types/Api';
 
-function Login() {
+type LoginProp = {
+  setCredentials: (credentials: LoginApiRequest) => void;
+};
+
+const Login: React.FC<LoginProp> = ({ setCredentials }) => {
   const [country, setCountry] = useState();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const username = e.target.email.value;
+    const password = e.target.password.value;
+    setCredentials({ username, password });
+  };
   return (
     <main className="app">
       <Box
@@ -28,11 +40,7 @@ function Login() {
         boxShadow={4}
         borderRadius={16}
       >
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
+        <Form onSubmit={handleLogin}>
           <Spacer space="m" direction="vertical" width="100%">
             <Flex
               justifyContent="space-between"
@@ -58,19 +66,25 @@ function Login() {
               </Spacer>
             </Flex>
             <FormItem label="Email" name="email">
-              <TextFieldInput placeholder="john.doe@example.com" />
+              <TextFieldInput placeholder="john@email.com" />
             </FormItem>
-            <FormItem label="Password" name="email" helpText="Forgot password!">
+            <FormItem
+              label="Password"
+              name="password"
+              helpText="Forgot password!"
+            >
               <TextFieldInput type="password" />
             </FormItem>
             <FormItem>
-              <Button block>Login</Button>
+              <Button block type="submit">
+                Login
+              </Button>
             </FormItem>
           </Spacer>
         </Form>
       </Box>
     </main>
   );
-}
+};
 
 export default Login;
