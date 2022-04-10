@@ -15,14 +15,18 @@ import {
   Typography,
   VoicemailOutlined,
 } from '@aircall/tractor';
+import { Link, useNavigate } from 'react-router-dom';
 import { Call } from '../types/Call';
 import { formatdate, secondsToHms } from '../utils/DateTimeUtils';
+import { CallIcon } from './CallIcon';
+import { CallType } from './CallType';
 
 type CallRowComponentProps = {
   call: Call;
 };
 
 export const CallRowComponent: React.FC<CallRowComponentProps> = ({ call }) => {
+  const navigate = useNavigate()
   return (
     <Grid
       gridTemplateColumns="2rem 6rem 7rem 6rem 10rem auto 6rem 2rem"
@@ -30,41 +34,8 @@ export const CallRowComponent: React.FC<CallRowComponentProps> = ({ call }) => {
       borderBottom="1px solid #ccc"
       alignItems="center"
     >
-      {call.call_type === 'missed' ? (
-        <Icon component={CallbackOutlined} mx="auto" color="red.base" />
-      ) : call.call_type === 'answered' ? (
-        <Icon component={CallbackOutlined} mx="auto" color="primary.base" />
-      ) : (
-        <Icon component={VoicemailOutlined} mx="auto" color="blue.base" />
-      )}
-      {call.call_type === 'answered' ? (
-        <Tag
-          size="small"
-          variant="primary"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {call.call_type}
-        </Tag>
-      ) : call.call_type === 'missed' ? (
-        <Tag
-          size="small"
-          variant="red"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {call.call_type}
-        </Tag>
-      ) : (
-        <Tag
-          size="small"
-          variant="blue"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {call.call_type}
-        </Tag>
-      )}
+      <CallIcon callType={call.call_type} />
+      <CallType callType={call.call_type}/>
       <Typography variant="body" textAlign="center">
         {secondsToHms(call.duration)}
       </Typography>
@@ -117,7 +88,9 @@ export const CallRowComponent: React.FC<CallRowComponentProps> = ({ call }) => {
         >
           <Menu>
             <MenuItem>Archive</MenuItem>
-            <MenuItem>Details</MenuItem>
+            <MenuItem onClick={() => navigate(`/calls/${call.id}`)}>
+              Details
+            </MenuItem>
           </Menu>
         </Dropdown>
       </Box>

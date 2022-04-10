@@ -24,9 +24,7 @@ import {
   TextFieldInput,
   Typography,
 } from '@aircall/tractor';
-import { Modal } from '@aircall/tractor/es/components/Modal';
 import React, { useState } from 'react';
-import { DetailComponent } from '../DetailComponent';
 import { Call } from '../types/Call';
 import { CallRowComponent } from './CallRowComponent';
 
@@ -124,79 +122,6 @@ export const CallsPage: React.FC<CallsPageProps> = ({
           <ChevronLeftOutlined onClick={previousPage} />
         </Flex>
       </Box>
-
-      <Modal.Dialog show={isOpen} onHide={closeModal}>
-        <Modal.Header>
-          <Modal.Title>
-            <Spacer space="xs">
-              Call Details
-              <Tag
-                size="small"
-                variant="blue"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <ArchiveOutlined size="16px" />
-                Archived
-              </Tag>
-            </Spacer>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body backgroundColor="white">
-          <Typography variant="body">
-            <Grid gridTemplateColumns="auto auto auto">
-              <DetailComponent />
-              <DetailComponent />
-              <DetailComponent />
-            </Grid>
-            <Spacer>
-              <Typography variant="body" textAlign="center">
-                1m 8s
-              </Typography>
-
-              <Tag
-                size="small"
-                variant="blue"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <InboundOutlined size="16px" />
-                Inbound
-              </Tag>
-              <Typography variant="body" textAlign="center">
-                June 11 2022 | 8pm
-              </Typography>
-            </Spacer>
-
-            <Typography variant="body" textAlign="initial" color="grey.dark">
-              Notes
-            </Typography>
-            <Typography textAlign="left">
-              <li>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              </li>
-              <li>
-                tempus ex tempus, dictum dolor quis, condimentum nisi. Maecenas
-              </li>
-              <br />
-              <FormItem name="note">
-                <TextFieldInput placeholder="Type in Notes" />
-              </FormItem>
-              <Button mode="link" type="button" className="padding-0">
-                + Add Notes
-              </Button>
-            </Typography>
-          </Typography>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button mode="link" type="button" onClick={closeModal}>
-            UnArchive
-          </Button>
-          <Button mode="link" type="button" onClick={closeModal}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
     </Box>
   );
 };

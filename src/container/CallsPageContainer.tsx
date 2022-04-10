@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router';
 import { AuthApi } from '../api/AuthApi';
 import { CallApi, CALL_PAGE_LIMIT } from '../api/CallApi';
 import { CallsPage } from '../component/CallsPage';
@@ -41,12 +42,15 @@ export const CallsPageContainer: React.FC<{}> = () => {
   }
 
   return (
-    <CallsPage
-      calls={calls}
-      setPage={setPage}
-      page={page}
-      previousPage={previousPage}
-      nextPage={nextPage}
-    />
+    <>
+      <CallsPage
+        calls={calls}
+        setPage={setPage}
+        page={page}
+        previousPage={previousPage}
+        nextPage={nextPage}
+      />
+      <Outlet />
+    </>
   );
 };

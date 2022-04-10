@@ -2,7 +2,7 @@ import { Tractor } from '@aircall/tractor';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { CallsPage } from './CallsPage';
+import { CallDetail } from './container/CallDetailContainer';
 import { CallsPageContainer } from './container/CallsPageContainer';
 import { LoginPage } from './container/LoginPageContainer';
 
@@ -14,7 +14,9 @@ render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/calls" element={<CallsPageContainer />} />
+          <Route path="/calls" element={<CallsPageContainer />} >
+            <Route path="/calls/:id" element={<CallDetail />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Tractor>
